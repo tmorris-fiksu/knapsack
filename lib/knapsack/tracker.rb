@@ -18,12 +18,20 @@ module Knapsack
       set_defaults
     end
 
+    def now_without_mock_time
+      if defined?(Timecop)
+        Time.now_without_mock_time
+      else
+        Time.now
+      end
+    end
+
     def start_timer
-      @start_time = Time.now.to_f
+      @start_time = now_without_mock_time.to_f
     end
 
     def stop_timer
-      @execution_time = Time.now.to_f - @start_time
+      @execution_time = now_without_mock_time.to_f - @start_time
       update_global_time
       update_test_file_time
       @execution_time
